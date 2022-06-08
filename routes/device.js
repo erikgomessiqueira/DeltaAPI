@@ -3,13 +3,23 @@ const User = require('../model/User')
 const unicId = require('uniqid')
 
 router.post('/', async (req, res)=>{
-    const {idProject, name} = req.body
+    const {idProject, name, startTime, endTime,} = req.body
 
     if(!name){
         return res.status(422).json({message: 'Nome não informado'})
     }
 
+    if(!idProject){
+        return res.status(422).json({message: 'IdProject não informado'})
+    }
 
+    if(!startTime){
+        return res.status(422).json({message: 'StartTime não informado'})
+    }
+
+    if(!endTime){
+        return res.status(422).json({message: 'EndTime não informado'})
+    }
 
     let project = await User.findById({_id:idProject})
 
@@ -24,6 +34,9 @@ router.post('/', async (req, res)=>{
     const modelDevice = {
         id: unicId(`${name}-`),
         name,
+        startTime,
+        endTime,
+        status: "pending"
 
     }
 
@@ -45,7 +58,7 @@ router.post('/', async (req, res)=>{
         )
     } catch (error) {
         console.log(error)
-        return res.status(500).json({message: "Erro adicionar o dispositivo"})
+        return res.status(500).json({message: "Erro ao adicionar o dispositivo"})
     }
 
 })

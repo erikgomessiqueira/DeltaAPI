@@ -4,7 +4,8 @@ const mongoose = require('mongoose')
 const app = express()
 const port = process.env.PORT || 3000
 
-const temperaturesRoutes = require('./routes/temperature')
+const temperatureRoutes = require('./routes/temperature')
+const temperaturesRoutes = require('./routes/temperatures')
 const deviceRoutes = require('./routes/device')
 const devicesRoutes = require('./routes/devices')
 const authRoutes = require('./routes/auth')
@@ -25,7 +26,10 @@ app.use(
 app.use(express.json())
 
 // config temperature routes.
-app.use('/temperature', temperaturesRoutes)
+app.use('/temperature', temperatureRoutes)
+
+// config temperatures routes.
+app.use('/temperatures', temperaturesRoutes)
 
 //config devices routes.
 app.use('/device', deviceRoutes)

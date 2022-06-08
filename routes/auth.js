@@ -74,7 +74,7 @@ router.post('/register/project', async (req, res)=>{
     
     try {
         await project.save()
-        return res.status(201).json({ message: "Projeto cadastrado!"})
+        return res.status(201).json({ message: "Projeto cadastrado"})
     } catch (error) {
         console.log(error)
         res.status(500).json({message: "Ocorreu no servidor, tente novamente mais tarde!"})
@@ -82,25 +82,68 @@ router.post('/register/project', async (req, res)=>{
 
 })
 
-router.post('/register/device', (req, res)=>{
-    const {userId, unicId} = req.body
-    if(!userId){
+router.post('/register/device', async (req, res)=>{
+    const {projectId, deviceId} = req.body
+
+    if(!projectId){
         return res.status(422).json({message: 'userId não informado'})
     }    
-    if(!unicId){
-        return res.status(422).json({message: 'unicId não informado'})
+    if(!deviceId){
+        return res.status(422).json({message: 'deviceId não informado'})
     }
     
-    let unicIdExist = true
+    let project = await User.findById({_id: projectId}, {devices: 1})
 
-    if(!unicIdExist){
+    if(!project){
+        return res.status(404).json({message: 'Projeto não encontrado'})
+    }
+
+    let devices = project.devices
+
+    if(devices.length === 0){
+        return res.status(422).json({message: 'Dispositivo não existe'})
+    }
+
+    let deviceFiltered = devices.filter((device)=> device.id === deviceId)
+    let device = deviceFiltered[0]
+
+    if(!device){
         return res.status(404).json({message: 'Dispositivo não encontrado'})
     }
 
+    if(device.status !== 'pending'){
+        return res.status(422).json({message: 'Dispositivo não pendente!'})
+    }
 
-    return res.status(200).json({
-        message: "Dispositivo cadastrado!"
-    })
+
+
+    const modelDevice = {
+        ...device,
+        status: "activated"
+
+    }
+
+    let otherDevices = devices.filter((device)=> device.id !== deviceId)
+
+    let updatedDevice = [...otherDevices, modelDevice]
+
+    try {
+        let updateProject = await User.updateOne({_id: project._id}, {$set:{devices: updatedDevice}}, {upsert: true})
+        
+        if(updateProject.matchedCount === 0){
+            return res.status(422).json({message:"Dispositivo não encontrado"})
+        }
+
+        return res.status(200).json(
+            {
+                message: "Dispositivo cadastrado",
+            }
+        )
+    } catch (error) {
+        console.log(error)
+        return res.status(500).json({message: "Erro ao cadastrar o dispositivo"})
+    }
+
 
 })
 

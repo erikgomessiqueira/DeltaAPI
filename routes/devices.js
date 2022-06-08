@@ -1,58 +1,24 @@
 const router = require('express').Router()
+const User = require('../model/User')
 
-router.get('/', (req, res)=>{
-    return res.status(200).json(
-        [
-            {
-                message:"ALL"
-            },
-            {
-                temperature: '24',
-                humidity: '18',
-                date: '2/5/2022',
-                time: '17:59:25'
-            },
-            {
-                temperature: '25',
-                humidity: '16',
-                date: '2/5/2022',
-                time: '20:15:02'
-            }
-        ]
-    )
+router.get('/', async (req, res)=>{
+    const {projectId} = req.body
 
-    
-
-})
-
-router.get('/user/:id', (req, res)=>{
-
-    let idDevice = req.params.id
-
-    let idDeviceExist = idDevice == 1234
-
-    if(!idDeviceExist){
-        return res.status(404).json({message: 'Id do disposisivo não encontrado'})
+    if (!projectId) {
+        return res.status(422).json({message: "Id do Projeto não informado"})
     }
-    return res.status(200).json(
-        [
-            {
-                temperature: '24',
-                humidity: '18',
-                date: '2/5/2022',
-                time: '17:59:25'
-            },
-            {
-                temperature: '25',
-                humidity: '16',
-                date: '2/5/2022',
-                time: '20:15:02'
-            }
-        ]
-    )
+    
+    try {
+        let devices = await User.findById({_id: projectId}, {devices: 1})
+        return res.status(200).json(devices)
+    } catch (error) {
+        console.log(error)
+        return res.status(500).json({message:"Erro ao buscar o projeto!"})
+    }
 
     
 
 })
+
 
 module.exports = router
