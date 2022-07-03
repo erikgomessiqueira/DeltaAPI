@@ -14,6 +14,8 @@ router.post('/', async (req, res)=>{
     const hours = dateInstase.getHours()
     const minutes = dateInstase.getMinutes()
     
+    console.log(date)
+    console.log(time)
     if(!temperature){
         res.status(422).json({message: 'Temperatura não informada'})
     }
