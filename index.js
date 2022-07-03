@@ -61,5 +61,5 @@ mongoose.connect(`mongodb+srv://${dbUser}:${dbPassword}@cluster0.29fyyuk.mongodb
         app.listen(port, () => console.log(`A API esta rodando na porta ${port}!`))
     })
     .catch((err)=>{
-        console.log(JSON.parse(err))
+        console.log(`${err}`)
     })
