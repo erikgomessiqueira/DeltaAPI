@@ -16,7 +16,7 @@ const xlsxFile = require('./routes/xlsxFile')
 //Data sensitive of Database
 const dbUser = process.env.DB_USER
 const dbPassword = process.env.DB_PASSWORD
-const dbPermission = process.env.DB_PERMISSON
+//const dbPermission = process.env.DB_PERMISSON
 
 //config cors
 app.use(cors())
