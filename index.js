@@ -44,7 +44,6 @@ app.use('/devices', devicesRoutes)
 //config registers routes.
 app.use('/auth', authRoutes)
 
-
 // config download data.
 app.use('/download', xlsxFile)
 
