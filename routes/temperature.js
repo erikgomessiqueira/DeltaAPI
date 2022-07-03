@@ -2,7 +2,11 @@ const router = require('express').Router()
 const User = require('../model/User')
 
 router.post('/', async (req, res)=>{
+    try{if(!req.body){
+        res.status(400).json({message: 'Informe os dados'})
+    }
     const {temperature, humidity, deviceId, projectId} = req.body
+    console.log(req.body)
     const dateInstase = new Date()
     const date = `${dateInstase.getDate()}/${dateInstase.getMonth()}/${dateInstase.getFullYear()}`
     const time = `${dateInstase.getHours()}:${dateInstase.getMinutes()}:${dateInstase.getSeconds()}`
@@ -50,12 +54,12 @@ router.post('/', async (req, res)=>{
     const endTime = device.endTime.split(':')
 
     if((Number(startTime[0])<=hours) && (Number(endTime[0])<=hours )){
-        return res.status(422).json({message: "Envio fora do intervalo de tempo"})
+        return res.status(202).json({message: "Envio fora do intervalo de tempo"})
     }
 
     if((Number(startTime[0])<=hours) && (Number(endTime[0])<=hours )){
         if((Number(startTime[1])<=minutes) && (Number(endTime[1])<=minutes)){
-            return res.status(422).json({message: "Envio fora do intervalo de tempo"})
+            return res.status(202).json({message: "Envio fora do intervalo de tempo"})
         }
     }
     
@@ -68,6 +72,8 @@ router.post('/', async (req, res)=>{
         time
     }
 
+    console.log(modelTemperature)
+
     let temperatures = project.temperatures
 
     let updatedTemperatures = [...temperatures, modelTemperature]
@@ -76,7 +82,7 @@ router.post('/', async (req, res)=>{
         let updateTemperature = await User.updateOne({_id: project._id}, {$set:{temperatures: updatedTemperatures}}, {upsert: true})
         
         if(updateTemperature.matchedCount === 0){
-            return res.status(422).json({message:"Temperatura não enviada"})
+            return res.status(400).json({message:"Temperatura não enviada"})
         }
 
         return res.status(200).json(
@@ -87,6 +93,10 @@ router.post('/', async (req, res)=>{
     } catch (error) {
         console.log(error)
         return res.status(500).json({message: "Erro ao enviar temperatura"})
+    }}
+    catch(err){
+        console.log(err)
+        return res.status(400).json({message: "Não foi possível entender a requisição"})
     }
 
 })
