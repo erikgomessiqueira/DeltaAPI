@@ -22,6 +22,9 @@ router.post('/', async (req, res)=>{
     }
 
     let project = await User.findById({_id:idProject})
+    if(!project){
+        return res.status(422).json({message:"Projeto não encontrado"})
+    }
 
     let {devices} = project
 
