@@ -3,7 +3,6 @@ const User = require('../model/User')
 
 router.post('/', async (req, res)=>{
     try{
-        console.log(`RequestBody: `, req.body)
         if(Object.keys(req.body).length === 0){
             return res.status(400).json({message: 'Informe os dados'})
             
@@ -15,9 +14,7 @@ router.post('/', async (req, res)=>{
 
         const hours = dateInstase.getHours()
         const minutes = dateInstase.getMinutes()
-        
-        console.log(date)
-        console.log(time)
+
         if(!temperature){
             res.status(422).json({message: 'Temperatura não informada'})
         }
@@ -75,8 +72,6 @@ router.post('/', async (req, res)=>{
             date,
             time
         }
-
-        console.log(modelTemperature)
 
         let temperatures = project.temperatures
 

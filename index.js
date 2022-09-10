@@ -51,9 +51,6 @@ app.get('/', (req, res) =>{
     res.status(200).json({message: "Bem vindo"})
 })
 
-
-console.log(dbUser)
-console.log(dbPassword)
 mongoose.connect(`mongodb+srv://${dbUser}:${dbPassword}@cluster0.29fyyuk.mongodb.net/?retryWrites=true&w=majority`) 
     .then(()=>{
         console.log("Conectado ao Banco")
