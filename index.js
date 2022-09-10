@@ -54,7 +54,7 @@ app.get('/', (req, res) =>{
 
 console.log(dbUser)
 console.log(dbPassword)
-mongoose.connect(`mongodb://${dbUser}:${dbPassword}@localhost:27017/Ra?authSource=${dbPermission}`)    
+mongoose.connect(`mongodb+srv://${dbUser}:${dbPassword}@cluster0.29fyyuk.mongodb.net/?retryWrites=true&w=majority`) 
     .then(()=>{
         console.log("Conectado ao Banco")
         app.listen(port, () => console.log(`A API esta rodando na porta ${port}!`))
