@@ -54,15 +54,15 @@ router.post('/', async (req, res)=>{
         const startTime = device.startTime.split(':')
         const endTime = device.endTime.split(':')
 
-        if((Number(startTime[0])<=hours) && (Number(endTime[0])<=hours )){
-            return res.status(202).json({message: "Envio fora do intervalo de tempo"})
-        }
+        // if((Number(startTime[0])<=hours) && (Number(endTime[0])<=hours )){
+        //     return res.status(202).json({message: "Envio fora do intervalo de tempo"})
+        // }
 
-        if((Number(startTime[0])<=hours) && (Number(endTime[0])<=hours )){
-            if((Number(startTime[1])<=minutes) && (Number(endTime[1])<=minutes)){
-                return res.status(202).json({message: "Envio fora do intervalo de tempo"})
-            }
-        }
+        // if((Number(startTime[0])<=hours) && (Number(endTime[0])<=hours )){
+        //     if((Number(startTime[1])<=minutes) && (Number(endTime[1])<=minutes)){
+        //         return res.status(202).json({message: "Envio fora do intervalo de tempo"})
+        //     }
+        // }
         
         
         const modelTemperature = {
@@ -72,6 +72,8 @@ router.post('/', async (req, res)=>{
             date,
             time
         }
+
+        console.log(modelTemperature)
 
         let temperatures = project.temperatures
 
