@@ -86,7 +86,7 @@ router.post('/register/device', async (req, res)=>{
     const {projectId, deviceId} = req.body
 
     if(!projectId){
-        return res.status(422).json({message: 'userId não informado'})
+        return res.status(422).json({message: 'projectId não informado'})
     }    
     if(!deviceId){
         return res.status(422).json({message: 'deviceId não informado'})

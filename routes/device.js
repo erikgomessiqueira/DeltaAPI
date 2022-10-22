@@ -3,7 +3,7 @@ const User = require('../model/User')
 const unicId = require('uniqid')
 
 router.post('/', async (req, res)=>{
-    const {idProject, name, startTime, endTime,} = req.body
+    const {idProject, name, startTime, endTime} = req.body
 
     if(!name){
         return res.status(422).json({message: 'Nome não informado'})

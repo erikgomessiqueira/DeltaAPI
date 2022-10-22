@@ -1,3 +1,6 @@
+//Define Timezone
+process.env.TZ = 'America/Sao_Paulo'
+
 require('dotenv').config()
 const express = require('express')
 const cors = require('cors')
@@ -51,8 +54,8 @@ app.get('/', (req, res) =>{
     res.status(200).json({message: "Bem vindo"})
 })
 
-// mongoose.connect(`mongodb://${dbUser}:${dbPassword}@localhost:27017/Ra?authSource=${dbPermission}`)
-    mongoose.connect(`mongodb+srv://${dbUser}:${dbPassword}@cluster0.29fyyuk.mongodb.net/?retryWrites=true&w=majority`) 
+// mongoose.connect(`mongodb+srv://${dbUser}:${dbPassword}@cluster0.29fyyuk.mongodb.net/?retryWrites=true&w=majority`) 
+    mongoose.connect(`mongodb://${dbUser}:${dbPassword}@localhost:27017/Ra?authSource=${dbPermission}`)
     .then(()=>{
         console.log("Conectado ao Banco")
         app.listen(port, () => console.log(`A API esta rodando na porta ${port}!`))
