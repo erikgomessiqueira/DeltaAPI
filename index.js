@@ -1,12 +1,12 @@
-//Define Timezone
-process.env.TZ = 'America/Sao_Paulo'
-
 require('dotenv').config()
 const express = require('express')
 const cors = require('cors')
 const mongoose = require('mongoose')
 const app = express()
 const port = process.env.PORT || 3000
+
+//Define Timezone
+process.env.TZ = 'America/Sao_Paulo'
 
 const temperatureRoutes = require('./routes/temperature')
 const temperaturesRoutes = require('./routes/temperatures')
