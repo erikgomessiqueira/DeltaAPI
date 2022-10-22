@@ -9,7 +9,7 @@ router.post('/', async (req, res)=>{
         }
         const {temperature, humidity, deviceId, projectId} = req.body
         const dateInstase = new Date()
-        const date = `${dateInstase.getDate()}/${dateInstase.getMonth()}/${dateInstase.getFullYear()}`
+        const date = `${dateInstase.getDate()}/${(dateInstase.getMonth()+ 1)}/${dateInstase.getFullYear()}`
         const time = `${dateInstase.getHours()}:${dateInstase.getMinutes()}:${dateInstase.getSeconds()}`
 
         const hours = dateInstase.getHours()
